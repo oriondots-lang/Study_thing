@@ -14,8 +14,12 @@
             <br class='menu'>
             <button onclick="show_page(['menu_button', 'menu'], ['conversion', 'mc_question'])" class='menu_button'>Conversions</button>
             <button onclick="show_page(['menu_button', 'menu'], ['element', 'mc_question'])" class='menu_button'>Elements</button>
+            <br class="menu_button">
+            <br class="menu_button">
+            <button onclick="show_page(['menu_button', 'menu'], ['review', 'mc_question'])" class='menu_button'>Review</button>
             <h1 hidden class='conversion'>Chemistry Conversion</h1>
             <h1 hidden class='element'>Chemistry Elements</h1>
+            <h1 hidden class='review'>Chemistry Review</h1>
             <br hidden class='mc_question'>
             <p hidden class='mc_question' id="conv_q">Insert Question Here?</p>
             <br hidden class='mc_question'>
@@ -42,6 +46,16 @@
             <br hidden class='element'>
             <br hidden class='element'>
             <button hidden onclick="create_element_question(['conv_q'], ['elem_button_a', 'elem_button_b', 'elem_button_c', 'elem_button_d'])" class='element' id="elem_button_nq">New Question</button>
+            <button hidden onclick="is_answer(this, 'mc_review_button')" class='mc_review_button' id="revi_button_a">A</button>
+            <button hidden onclick="is_answer(this, 'mc_review_button')" class='mc_review_button' id="revi_button_b">B</button>
+            <br hidden class='mc_review_button'>
+            <br hidden class='mc_review_button'>
+            <button hidden onclick="is_answer(this, 'mc_review_button')" class='mc_review_button' id="revi_button_c">C</button>
+            <button hidden onclick="is_answer(this, 'mc_review_button')" class='mc_review_button' id="revi_button_d">D</button>
+            <br hidden class='review'>
+            <br hidden class='review'>
+            <button hidden onclick="is_answer(this, 'mc_review_button')" class='mc_review_button' id="revi_button_e">E</button>
+            <button hidden onclick="create_review_question(['conv_q'], ['revi_button_a', 'revi_button_b', 'revi_button_c', 'revi_button_d', 'revi_button_e'])" class='review' id="revi_button_nq">New Question</button>
         </main>
         <br>
         <script src="data.js" defer></script>
