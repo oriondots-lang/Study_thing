@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study</title>
+    <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="bg">
+        </div>
+        <main>
+            <h1 class='menu'>Chemistry</h1>
+            <br class='menu'>
+            <button onclick="show_page(['menu_button', 'menu'], ['conversion', 'mc_question'])" class='menu_button'>Conversions</button>
+            <button onclick="show_page(['menu_button', 'menu'], ['element', 'mc_question'])" class='menu_button'>Elements</button>
+            <h1 hidden class='conversion'>Chemistry Conversion</h1>
+            <h1 hidden class='element'>Chemistry Elements</h1>
+            <br hidden class='mc_question'>
+            <p hidden class='mc_question' id="conv_q">Insert Question Here?</p>
+            <br hidden class='mc_question'>
+            <h2 hidden class='show_answer' id="answer_state"></h2>
+            <br hidden class='show_answer'>
+            <h3 hidden id='correct_answer_text'>Correct Answer: </h3>
+            <h3 hidden class='show_answer' id="correct_answer"></h3>
+            <br hidden class='show_answer'>
+            <button hidden onclick="is_answer(this, 'mc_conversion_button')" class='mc_conversion_button' id="conv_button_a">A</button>
+            <button hidden onclick="is_answer(this, 'mc_conversion_button')" class='mc_conversion_button' id="conv_button_b">B</button>
+            <br hidden class='mc_conversion_button'>
+            <br hidden class='mc_conversion_button'>
+            <button hidden onclick="is_answer(this, 'mc_conversion_button')" class='mc_conversion_button' id="conv_button_c">C</button>
+            <button hidden onclick="is_answer(this, 'mc_conversion_button')" class='mc_conversion_button' id="conv_button_d">D</button>
+            <br hidden class='conversion'>
+            <br hidden class='conversion'>
+            <button hidden onclick="create_conversion_question(['conv_q'], ['conv_button_a', 'conv_button_b', 'conv_button_c', 'conv_button_d'])" class='conversion' id="conv_button_nq">New Question</button>
+            <button hidden onclick="is_answer(this, 'mc_element_button')" class='mc_element_button' id="elem_button_a">A</button>
+            <button hidden onclick="is_answer(this, 'mc_element_button')" class='mc_element_button' id="elem_button_b">B</button>
+            <br hidden class='mc_element_button'>
+            <br hidden class='mc_element_button'>
+            <button hidden onclick="is_answer(this, 'mc_element_button')" class='mc_element_button' id="elem_button_c">C</button>
+            <button hidden onclick="is_answer(this, 'mc_element_button')" class='mc_element_button' id="elem_button_d">D</button>
+            <br hidden class='element'>
+            <br hidden class='element'>
+            <button hidden onclick="create_element_question(['conv_q'], ['elem_button_a', 'elem_button_b', 'elem_button_c', 'elem_button_d'])" class='element' id="elem_button_nq">New Question</button>
+        </main>
+        <br>
+        <script src="data.js" defer></script>
+    </body>
+</html>
