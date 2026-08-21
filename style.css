@@ -57,3 +57,51 @@ button:hover {
 #correct_answer {
     color: rgb(60, 179, 113);
 }
+
+.align {
+    margin: auto;
+    width: 20%;
+}
+
+#elem_circle {
+    height: 220px;
+    width: 220px;
+    border-radius: 50%;
+    border: 1px solid #acd6ff;
+    background-image: radial-gradient(#ffffe6, #fff74f);
+    margin: auto;
+}
+
+#elem_input_circle {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background-color: #b2b2ae;
+    position: relative;
+    left: 60px;
+}
+
+#elem_right_input_circle {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background-color: #eaeada;
+    position: relative;
+    left: 110px;
+    bottom: 50px;
+}
+
+#elem_bottom_input_circle {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background-color: #ffff00;
+    position: relative;
+    margin: auto;
+    bottom: 5px;
+}
+
+input {
+    position: relative;
+    top: 10px;
+}

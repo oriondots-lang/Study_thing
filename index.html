@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <div class="bg">
-        </div>
+        <div class="bg"></div>
+        <br>
         <main>
             <h1 class='menu'>Chemistry</h1>
             <br class='menu'>
@@ -43,8 +43,29 @@
             <br hidden class='mc_element_button'>
             <button hidden onclick="is_answer(this, 'mc_element_button')" class='mc_element_button' id="elem_button_c">C</button>
             <button hidden onclick="is_answer(this, 'mc_element_button')" class='mc_element_button' id="elem_button_d">D</button>
+            <div hidden class='element_input' id="elem_circle">
+                <br hidden class='element_input'>
+                <br hidden class='element_input'>
+                <br hidden class='element_input'>
+                <p hidden class='element_input' id="element_text">Insert element Here</p>
+                <div hidden class='element_input' id="elem_input_circle">
+                    <input hidden class='element_input' type="number" max="999" min="0" size="3" id="proton_input">
+                    <input hidden class='element_input_data' type="number" max="999" min="0" size="3" id="proton_input_data">
+                </div>
+                <div hidden class='element_input' id="elem_right_input_circle">
+                    <input hidden class='element_input' type="number" max="999" min="0" size="3" id="neutron_input">
+                    <input hidden class='element_input_data' type="number" max="999" min="0" size="3" id="neutron_input_data">
+                </div>
+                <div hidden class='element_input' id="elem_bottom_input_circle">
+                    <input hidden class='element_input' type="number" max="999" min="0" size="3" id="eletron_input">
+                    <input hidden class='element_input_data' type="number" max="999" min="0" size="3" id="eletron_input_data">
+                </div>
+            </div>
             <br hidden class='element'>
             <br hidden class='element'>
+            <button hidden onclick="is_submit_answer(this, 'element_input')" class='element_input' id="submit_button">Submit</button>
+            <br hidden class='element_input'>
+            <br hidden class='element_input'>
             <button hidden onclick="create_element_question(['conv_q'], ['elem_button_a', 'elem_button_b', 'elem_button_c', 'elem_button_d'])" class='element' id="elem_button_nq">New Question</button>
             <button hidden onclick="is_answer(this, 'mc_review_button')" class='mc_review_button' id="revi_button_a">A</button>
             <button hidden onclick="is_answer(this, 'mc_review_button')" class='mc_review_button' id="revi_button_b">B</button>

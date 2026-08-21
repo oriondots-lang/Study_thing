@@ -25,14 +25,14 @@ function create_conversion_question(question_id, answers_id) {
     }
     document.getElementById('correct_answer_text').hidden = true;
     document.getElementById('correct_answer').innerHTML = "";
-    const types = ['mc_si', 'mc_mp']; // Added type Positioning for Elements Positioning and pne(3 input boxes) for Elements Protons, Elements Eletrons, Elements Netrons
+    const types = ['mc_si', 'mc_mp'];
     let question_type = types[Math.floor(Math.random() * types.length)];
     let question = document.getElementById(question_id[0]);
     question.value = question_type;
     if (question_type === 'mc_si') {
         const questions = ['What is the Property of', 'What is the Unit of', 'What is the Symbol of'];
         let propertys = [
-            ['the Length', 'the Mass', 'the Time', 'the Temperature', 'the Electric current', 'the Amount of substance', 'the Luminous intensity'],
+            ['Length', 'Mass', 'Time', 'Temperature', 'Electric current', 'Amount of substance', 'Luminous intensity'],
             ['a Meter', 'a Kilogram', 'a Second', 'a Kelvin', 'a Ampere', 'a Mole', 'a candela'],
             ['m', 'kg', 'S', 'K', 'A', 'mol', 'cd']
         ];
@@ -47,16 +47,16 @@ function create_conversion_question(question_id, answers_id) {
         let current_array = answers[answer_index];
         let other_array = propertys[questions.indexOf(question_text)]
         let other_index = Math.floor(Math.random() * current_array.length);
-        let chosen_element = current_array[answer_index];
+        let chosen_element = current_array[other_index];
         let full_text = question_text + ' ' + chosen_element + '?'
         question.innerHTML = full_text;
         let minus_amt = 0;
         let correct_answer = Math.floor(Math.random() * (3 - minus_amt));
 
 
-        let correct_answer_text = other_array[answer_index];
+        let correct_answer_text = other_array[other_index];
         const elements_to_show = document.getElementsByClassName('mc_conversion_button');
-        remove(other_array, [other_array[answer_index]]);
+        remove(other_array, [other_array[other_index]]);
         for (let j = 0; j < answers_id.length; j++) {
             let cur_answer = document.getElementById(answers_id[j]);
             if (correct_answer === j) {
@@ -122,9 +122,43 @@ function is_answer(element, button_to_hide) {
     } else {
         answer_state.innerHTML = "Incorrect";
         answer_state.style.color = "rgb(255, 0, 0)";
-        document.getElementById('correct_answer_text').hidden = false;
-        document.getElementById('correct_answer').textContent = correct_element;
     }
+    document.getElementById('correct_answer_text').hidden = false;
+    document.getElementById('correct_answer').textContent = correct_element;
+}
+function is_submit_answer(element, button_to_hide) {
+    const elements_to_show = document.getElementsByClassName('show_answer');
+    for (let i = 0; i < elements_to_show.length; i++) {
+        elements_to_show[i].hidden = false;
+    }
+    const elements_to_hide = document.getElementsByClassName(button_to_hide);
+    const elements_data = document.getElementsByClassName(button_to_hide + '_data');
+    let correct_elements = [];
+    let is_correct = true;
+    for (let i = 0; i < elements_data.length; i++) {
+        correct_elements[correct_elements.length] = elements_data[i].value;
+        for (let j = 0; j < elements_to_hide.length; j++) {
+            let at_data = elements_to_hide[j].id + '_data'
+            if (elements_to_hide[j].value != elements_data[i].value && at_data === elements_data[i].id) {
+                is_correct = false;
+            }
+            elements_to_hide[j].disabled = true;
+        }
+        elements_data[i].disabled = true;
+    }
+    const answer_state = document.getElementById('answer_state');
+    let proton_input = document.getElementById('proton_input');
+    let neutron_input = document.getElementById('neutron_input');
+    let electron_input = document.getElementById('eletron_input');
+    if (is_correct === true) {
+        answer_state.innerHTML = "Correct";
+        answer_state.style.color = "rgb(60, 179, 113)";
+    } else {
+        answer_state.innerHTML = "Incorrect";
+        answer_state.style.color = "rgb(255, 0, 0)";
+    }
+    document.getElementById('correct_answer_text').hidden = false;
+    document.getElementById('correct_answer').textContent = 'Protons:' + correct_elements[0] + ', Neutrons:' + correct_elements[1] + ', Eletrons:' + correct_elements[2];
 }
 function remove(arr, elements) {
     elements.forEach(function (e) {
@@ -133,29 +167,38 @@ function remove(arr, elements) {
         }
     });
 }
-// Questions to create Elements Positioning, Elements Protons, Elements Eletrons, Elements Netrons, Elements Atomic Weight, Elements Group, and Elements Type
+Number.prototype.round = function(decimals) {
+    return Number((Math.round(this + "e" + decimals) + "e-" + decimals));
+}
+// Questions to create Elements Positioning
 function create_element_question(question_id, answers_id) {
     const elements_to_hide = document.getElementsByClassName('show_answer');
     for (let i = 0; i < elements_to_hide.length; i++) {
         elements_to_hide[i].hidden = true;
     }
-    const elements_to_show = document.getElementsByClassName('mc_element_button');
-    for (let i = 0; i < elements_to_show.length; i++) {
-        elements_to_show[i].disabled = false;
-        elements_to_show[i].hidden = false;
-    }
     document.getElementById('correct_answer_text').hidden = true;
     document.getElementById('correct_answer').innerHTML = "";
-    const types = ['mc']; // Added type Positioning for Elements Positioning and pne(3 input boxes) for Elements Protons, Elements Eletrons, Elements Netrons
+    const types = ['mc', 'pne', 'name']; // Added type Positioning for Elements Positioning
     let question_type = types[Math.floor(Math.random() * types.length)];
     let question = document.getElementById(question_id[0]);
     question.value = question_type;
+    const elements_prefix = ['H', 'He', 'Li', 'Be', 'B', 'C', 'N', 'O', 'F', 'Ne', 'Na', 'Mg', 'Al', 'Si', 'P', 'S', 'Cl', 'Ar(Argon)', 'K', 'Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge', 'As', 'Se', 'Br', 'Kr', 'Rb', 'Sr', 'Y', 'Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd', 'Ag', 'Cd', 'In', 'Sn', 'Sb', 'Te', 'I', 'Xe', 'Cs', 'Ba'];
+    const elements = ['Hydrogen', 'Helium', 'Lithium', 'Beryllium', 'Boron', 'Carbon', 'Nitrogen', 'Oxygen', 'Fluorine', 'Neon', 'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus', 'Sulfur', 'Chlorine', 'Argon', 'Potassium', 'Calcium', 'Scandium', 'Titanium', 'Vanadium', 'Chromium', 'Manganese', 'Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc', 'Gallium', 'Germanium', 'Arsenic', 'Selenium', 'Bromine', 'Krypton', 'Rubidium', 'Strontium', 'Yttrium', 'Zirconium', 'Niobium', 'Molybdenum', 'Technetium', 'Ruthenium', 'Rhodium', 'Palladium', 'Silver', 'Cadmium', 'Indium', 'Tin', 'Antimony', 'Tellurium', 'Iodine', 'Xenon', 'Cesium', 'Barium'];
     if (question_type === 'mc') {
+        const elements_to_show_ = document.getElementsByClassName('mc_element_button');
+        for (let i = 0; i < elements_to_show_.length; i++) {
+            elements_to_show_[i].disabled = false;
+            elements_to_show_[i].hidden = false;
+        }
+        const elements_to_hide = document.getElementsByClassName('element_input');
+        for (let i = 0; i < elements_to_hide.length; i++) {
+            elements_to_hide[i].hidden = true;
+        }
         const questions = ['What is the Atomic Weight of', 'What Series is this in:', 'Is this Diotomic or Polyatomic:', 'What is the Standard State of', 'What is the Boiling Point of', 'What is the Melting Point of']; //  / 
-        const elements = ['H(Hydrogen)', 'He(Helium)', 'Li(Lithium)', 'Be(Beryllium)', 'B(Boron)', 'C(Carbon)', 'N(Nitrogen)', 'O(Oxygen)', 'F(Fluorine)', 'Ne(Neon)', 'Na(Sodium)', 'Mg(Magnesium)', 'Al(Aluminum)', 'Si(Silicon)', 'P(Phosphorus)', 'S(Sulfur)', 'Cl(Chlorine)', 'Ar(Argon)', 'K(Potassium)', 'Ca(Calcium)', 'Sc(Scandium)', 'Ti(Titanium)', 'V(Vanadium)', 'Cr(Chromium)', 'Mn(Manganese)', 'Fe(Iron)', 'Co(Cobalt)', 'Ni(Nickel)', 'Cu(Copper)', 'Zn(Zinc)', 'Ga(Gallium)', 'Ge(Germanium)', 'As(Arsenic)', 'Se(Selenium)', 'Br(Bromine)', 'Kr(Krypton)', 'Rb(Rubidium)', 'Sr(Strontium)', 'Y(Yttrium)', 'Zr(Zirconium)', 'Nb(Niobium)', 'Mo(Molybdenum)', 'Tc(Technetium)', 'Ru(Ruthenium)', 'Rh(Rhodium)', 'Pd(Palladium)', 'Ag(Silver)', 'Cd(Cadmium)', 'In(Indium)', 'Sn(Tin)', 'Sb(Antimony)', 'Te(Tellurium)', 'I(Iodine)', 'Xe(Xenon)', 'Cs(Cesium)', 'Ba(Barium)'];
         let chosen_element = elements[Math.floor(Math.random() * elements.length)];
+        let chosen_element_prefix = elements_prefix[elements.indexOf(chosen_element)];
         let question_text = questions[Math.floor(Math.random() * questions.length)];
-        let full_text = question_text + ' ' + chosen_element + '?'
+        let full_text = question_text + ' ' + chosen_element_prefix + '(' + chosen_element + ')?'
         question.innerHTML = full_text;
         let minus_amt = 0;
         if (questions.indexOf(question_text) === 2) {
@@ -167,11 +210,24 @@ function create_element_question(question_id, answers_id) {
             ['Nonmetal', 'Noble Gas', 'Alkali Metal', 'Alkaline Earth', 'Metalloid', 'Nonmetal', 'Nonmetal', 'Nonmetal', 'Nonmetal', 'Noble Gas', 'Alkali Metal', 'Alkaline Earth', 'Representative Element', 'Metalloid', 'Nonmetal', 'Nonmetal', 'Nonmetal', 'Noble Gas', 'Alkali Metal', 'Alkaline Earth', 'Transition Metal', 'Transition Metal', 'Transition Metal', 'Transition Metal', 'Transition Metal', 'Transition Metal', 'Transition Metal', 'Transition Metal', 'Transition Metal', 'Transition Metal', 'Representative Element', 'Metalloid', 'Metalloid', 'Nonmetal', 'Nonmetal', 'Noble Gas', 'Alkali Metal', 'Alkaline Earth', 'Transition Metal', 'Transition Metal', 'Transition Metal', 'Transition Metal', 'Transition Metal', 'Transition Metal', 'Transition Metal', 'Transition Metal', 'Transition Metal', 'Transition Metal', 'Representative Element', 'Representative Element', 'Metalloid', 'Metalloid', 'Nonmetal', 'Noble Gas', 'Alkali Metal', 'Alkaline Earth'],
             ['Diotomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Diotomic', 'Diotomic', 'Diotomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Diotomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Diotomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Polyatomic', 'Diotomic', 'Polyatomic', 'Polyatomic', 'Polyatomic'],
             ['Gaseous', 'Gaseous', 'Solid', 'Solid', 'Solid', 'Solid', 'Gaseous', 'Gaseous', 'Gaseous', 'Gaseous', 'Solid', 'Solid', 'Solid', 'Solid', 'Solid', 'Solid', 'Gaseous', 'Gaseous', 'Solid', 'Solid', 'Solid', 'Solid', 'Solid/Heavy Metal', 'Solid/Heavy Metal', 'Solid', 'Solid', 'Solid', 'Solid/Heavy Metal', 'Solid/Heavy Metal', 'Solid', 'Solid', 'Solid', 'Solid/Heavy Metal', 'Solid', 'Liquid', 'Gaseous', 'Solid', 'Solid', 'Solid', 'Solid', 'Solid', 'Solid/Heavy Metal', 'Solid/Radioactive', 'Solid/Heavy Metal', 'Solid/Heavy Metal', 'Solid/Heavy Metal', 'Solid/Heavy Metal', 'Solid/Heavy Metal', 'Solid/Heavy Metal', 'Solid/Heavy Metal', 'Solid/Heavy Metal', 'Solid', 'Solid', 'Gaseous', 'Solid', 'Solid'],
-            ['-252.9°C', '-269°C', '1342°C', '2470°C', '4000°C', '3825°C', '-195.8°C', '-183°C', '-188.1°C', '-246.1°C', '882.9°C', '1090°C', '2519°C', '2900°C', '280.5°C', '444.72°C', '-34.04°C', '-185.8°C', '759°C', '1484°C', '2831°C', '3187°C', '3407°C', '2671°C', '2061°C', '2862°C', '2927°C', '2913°C', '2562°C', '907°C', '2204°C', '2820°C', '614°C', '685°C', '58.9°C', '-153.22°C', '688°C', '1382°C', '3345°C', '4409°C', '4744°C', '4629°C', '4265°C', '4150°C', '3695°C', '2963°C', '2162°C', '766.9°C', '2072°C', '2602°C', '1587°C', '987.9°C', '184.3°C', '-108°C', '671°C', '1870°C'],
-            ['-259.1°C', '-272°C', '180.54°C', '1287°C', '2075°C', '3550°C', '-210.1°C', '-218°C', '-220°C', '-248.6°C', '97.72°C', '650°C', '660.32°C', '1414°C', '44.15°C', '115.21°C', '-101.5°C', '-189.4°C', '63.5°C', '842°C', '1531°C', '1668°C', '1910°C', '1907°C', '1246°C', '1538°C', '1495°C', '1455°C', '1085°C', '419.5°C', '29.76°C', '938.25°C', '816.9°C', '221°C', '-7.35°C', '-157.36°C', '39.31°C', '776.9°C', '1526°C', '1855°C', '2477°C', '2623°C', '2157°C', '2334°C', '1964°C', '1554°C', '961.7°C', '321.07°C', '156.6°C', '231.93°C', '630.63°C', '449.51°C', '113.7°C', '-111.8°C', '28.44°C', '730°C'],
+            ['-252.9', '-269', '1342', '2470', '4000', '3825', '-195.8', '-183', '-188.1', '-246.1', '882.9', '1090', '2519', '2900', '280.5', '444.72', '-34.04', '-185.8', '759', '1484', '2831', '3187', '3407', '2671', '2061', '2862', '2927', '2913', '2562', '907', '2204', '2820', '614', '685', '58.9', '-153.22', '688', '1382', '3345', '4409', '4744', '4629', '4265', '4150', '3695', '2963', '2162', '766.9', '2072', '2602', '1587', '987.9', '184.3', '-108', '671', '1870'],
+            ['-259.1', '-272', '180.54', '1287', '2075', '3550', '-210.1', '-218', '-220', '-248.6', '97.72', '650', '660.32', '1414', '44.15', '115.21', '-101.5', '-189.4', '63.5', '842', '1531', '1668', '1910', '1907', '1246', '1538', '1495', '1455', '1085', '419.5', '29.76', '938.25', '816.9', '221', '-7.35', '-157.36', '39.31', '776.9', '1526', '1855', '2477', '2623', '2157', '2334', '1964', '1554', '961.7', '321.07', '156.6', '231.93', '630.63', '449.51', '113.7', '-111.8', '28.44', '730'],
         ];
+        let degree = ['°C', '°F', 'K'];
+        let degree_index = Math.floor(Math.random() * degree.length);
+        let degree_text = degree[degree_index];
         let current_array = answers[questions.indexOf(question_text)];
         let correct_answer_text = answers[questions.indexOf(question_text)][elements.indexOf(chosen_element)];
+        if (questions.indexOf(question_text) === 4 || questions.indexOf(question_text) === 5) {
+            let amt = Number(answers[questions.indexOf(question_text)][elements.indexOf(chosen_element)])
+            if (degree_index === 1) {
+                amt = (1.8 * amt) + 32;
+            } else if (degree_index === 2) {
+                amt = amt + 273.15;
+            }
+            amt = amt.round(2).toFixed(2)
+            correct_answer_text = amt.toString() + degree_text;
+        }
         const elements_to_show = document.getElementsByClassName('mc_element_button');
         for (let i = 0; i < elements_to_show.length; i++) {
             if (questions.indexOf(question_text) === 2 && i >= 2) {
@@ -188,12 +244,54 @@ function create_element_question(question_id, answers_id) {
                 cur_answer.value = 'correct';
             } else {
                 let index = Math.floor(Math.random() * current_array.length);
-                cur_answer.innerHTML = current_array[index];
+                let new_answer_text = current_array[index];
+                if (questions.indexOf(question_text) === 4 || questions.indexOf(question_text) === 5) {
+                    let amt = Number(new_answer_text)
+                    if (degree_index === 1) {
+                        amt = (1.8 * amt) + 32;
+                    } else if (degree_index === 2) {
+                        amt = amt + 273.15;
+                    }
+                    amt = amt.toFixed(2)
+                    new_answer_text = amt.toString() + degree_text;
+                }
+                cur_answer.innerHTML = new_answer_text;
                 cur_answer.value = 'incorrect';
                 remove(current_array, [current_array[index]])
             }
         }
-    }
+    } else if (question_type === 'pne') {
+        const elements_to_hide = document.getElementsByClassName('mc_element_button');
+        for (let i = 0; i < elements_to_hide.length; i++) {
+            elements_to_hide[i].hidden = true;
+        }
+        const elements_to_show = document.getElementsByClassName('element_input');
+        for (let i = 0; i < elements_to_show.length; i++) {
+            elements_to_show[i].disabled = false;
+            elements_to_show[i].hidden = false;
+        }
+        const question_text = 'How many p<sup>+</sup>, n<sup>0</sup>, and e<sup>-</sup> does';
+        const post_question_text = ' contain?';
+        let chosen_element = elements[Math.floor(Math.random() * elements.length)];
+        let chosen_element_prefix = elements_prefix[elements.indexOf(chosen_element)];
+        let full_text = question_text + ' ' + chosen_element_prefix + post_question_text;
+        question.innerHTML = full_text;
+        let elem_display = document.getElementById('element_text');
+        elem_display.innerHTML = chosen_element;
+        let answers = [
+            // Proton, Neutron, Electron
+            [1, 0, 1], [2, 2, 2], [3, 3, 3], [4, 5, 4], [5, 6, 5], [6, 6, 6], [7, 7, 7], [8, 8, 8], [9, 10, 9], [10, 10, 10], [11, 12, 11], [12, 12, 12], [13, 14, 13], [14, 14, 14], [15, 16, 15], [16, 16, 16], [17, 18, 17], [18, 22, 18], [19, 20, 19], [20, 20, 20], [21, 24, 21], [22, 26, 22], [23, 27, 23], [24, 28, 24], [25, 30, 25], [26, 30, 26], [27, 32, 27], [28, 31, 28], [29, 35, 29], [30, 35, 30], [31, 39, 31], [32, 41, 32], [33, 43, 33], [34, 45, 34], [35, 45, 35], [36, 48, 36], [37, 48, 37], [38, 50, 38], [39, 50, 39], [40, 51, 40], [41, 52, 41], [42, 54, 42], [43, 55, 43], [44, 57, 44], [45, 58, 45], [46, 60, 46], [47, 61, 47], [48, 64, 48], [49, 66, 49], [50, 69, 50], [51, 71, 51], [52, 76, 52], [53, 74, 53], [54, 77, 54], [55, 78, 55], [56, 81, 56],
+        ];
+        let proton_input = document.getElementById('proton_input_data');
+        let neutron_input = document.getElementById('neutron_input_data');
+        let electron_input = document.getElementById('eletron_input_data');
+        let answer = answers[elements.indexOf(chosen_element)];
+        proton_input.value = answer[0];
+        neutron_input.value = answer[1];
+        electron_input.value = answer[2];
+    } //else if (question_type === 'name') {
+    //
+    //}
 }
 
 function create_review_question(question_id, answers_id) {
