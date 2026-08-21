@@ -11,15 +11,20 @@
         <br>
         <main>
             <h1 class='menu'>Chemistry</h1>
+            <h1 hidden class='conversion'>Chemistry Conversion</h1>
+            <h1 hidden class='element'>Chemistry Elements</h1>
+            <h1 hidden class='review'>Chemistry Review</h1>
+            <h5 class='switch_words'>Memory Mode:</h5>
+            <label class="toggle-switch square">
+                <input type="checkbox">
+                <span class="slider"></span>
+            </label>
             <br class='menu'>
             <button onclick="show_page(['menu_button', 'menu'], ['conversion', 'mc_question'])" class='menu_button'>Conversions</button>
             <button onclick="show_page(['menu_button', 'menu'], ['element', 'mc_question'])" class='menu_button'>Elements</button>
             <br class="menu_button">
             <br class="menu_button">
             <button onclick="show_page(['menu_button', 'menu'], ['review', 'mc_question'])" class='menu_button'>Review</button>
-            <h1 hidden class='conversion'>Chemistry Conversion</h1>
-            <h1 hidden class='element'>Chemistry Elements</h1>
-            <h1 hidden class='review'>Chemistry Review</h1>
             <br hidden class='mc_question'>
             <p hidden class='mc_question' id="conv_q">Insert Question Here?</p>
             <br hidden class='mc_question'>

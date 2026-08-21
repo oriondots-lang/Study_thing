@@ -178,7 +178,7 @@ function create_element_question(question_id, answers_id) {
     }
     document.getElementById('correct_answer_text').hidden = true;
     document.getElementById('correct_answer').innerHTML = "";
-    const types = ['mc', 'pne', 'name']; // Added type Positioning for Elements Positioning
+    const types = ['mc', 'pne']; // Added type Positioning for Elements Positioning and 'name'
     let question_type = types[Math.floor(Math.random() * types.length)];
     let question = document.getElementById(question_id[0]);
     question.value = question_type;
