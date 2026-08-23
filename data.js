@@ -12,6 +12,11 @@ function show_page(to_hide, to_show) {
         }
     }
 }
+function is_memory_mode_enabled() {
+    let checkbox = document.getElementById('memory_mode');
+    document.getElementById('answer_state').value = checkbox.checked;
+    return checkbox.checked;
+}
 
 function create_conversion_question(question_id, answers_id) {
     const elements_to_hide = document.getElementsByClassName('show_answer');
@@ -23,12 +28,21 @@ function create_conversion_question(question_id, answers_id) {
         elements_to_show[i].disabled = false;
         elements_to_show[i].hidden = false;
     }
-    document.getElementById('correct_answer_text').hidden = true;
+    let is_shown = document.getElementById('correct_answer_text').hidden;
+    if (!(is_memory_mode_enabled() && !is_shown && document.getElementById('correct_answer_text').value)) {
+        document.getElementById('correct_answer_text').hidden = true;
+    }
     document.getElementById('correct_answer').innerHTML = "";
+    if (is_memory_mode_enabled() && !is_shown && document.getElementById('correct_answer_text').value) {
+        document.getElementById('correct_answer_text').value = false;
+        document.getElementById('correct_answer_text').hidden = true;
+        return;
+    }
     const types = ['mc_si', 'mc_mp'];
     let question_type = types[Math.floor(Math.random() * types.length)];
     let question = document.getElementById(question_id[0]);
     question.value = question_type;
+    let correct_element;
     if (question_type === 'mc_si') {
         const questions = ['What is the Property of', 'What is the Unit of', 'What is the Symbol of'];
         let propertys = [
@@ -53,7 +67,6 @@ function create_conversion_question(question_id, answers_id) {
         let minus_amt = 0;
         let correct_answer = Math.floor(Math.random() * (3 - minus_amt));
 
-
         let correct_answer_text = other_array[other_index];
         const elements_to_show = document.getElementsByClassName('mc_conversion_button');
         remove(other_array, [other_array[other_index]]);
@@ -62,6 +75,7 @@ function create_conversion_question(question_id, answers_id) {
             if (correct_answer === j) {
                 cur_answer.innerHTML = correct_answer_text;
                 cur_answer.value = 'correct';
+                correct_element = document.getElementById(answers_id[j]);
             } else {
                 let index = Math.floor(Math.random() * other_array.length);
                 cur_answer.innerHTML = other_array[index];
@@ -92,6 +106,7 @@ function create_conversion_question(question_id, answers_id) {
             if (correct_answer === j) {
                 cur_answer.innerHTML = correct_answer_text;
                 cur_answer.value = 'correct';
+                correct_element = document.getElementById(answers_id[j]);
             } else {
                 let index = Math.floor(Math.random() * current_array.length);
                 cur_answer.innerHTML = current_array[index];
@@ -99,6 +114,11 @@ function create_conversion_question(question_id, answers_id) {
                 remove(current_array, [current_array[index]])
             }
         }
+    }
+    const answer_state = document.getElementById('answer_state');
+    if (is_memory_mode_enabled() && answer_state.hidden) {
+        document.getElementById('correct_answer_text').value = true;
+        is_answer(correct_element, 'mc_conversion_button')
     }
 }
 
@@ -123,6 +143,7 @@ function is_answer(element, button_to_hide) {
         answer_state.innerHTML = "Incorrect";
         answer_state.style.color = "rgb(255, 0, 0)";
     }
+    answer_state.hidden = document.getElementById('correct_answer_text').value;
     document.getElementById('correct_answer_text').hidden = false;
     document.getElementById('correct_answer').textContent = correct_element;
 }
@@ -157,6 +178,7 @@ function is_submit_answer(element, button_to_hide) {
         answer_state.innerHTML = "Incorrect";
         answer_state.style.color = "rgb(255, 0, 0)";
     }
+    answer_state.hidden = document.getElementById('correct_answer_text').value;
     document.getElementById('correct_answer_text').hidden = false;
     document.getElementById('correct_answer').textContent = 'Protons:' + correct_elements[0] + ', Neutrons:' + correct_elements[1] + ', Eletrons:' + correct_elements[2];
 }
@@ -176,11 +198,40 @@ function create_element_question(question_id, answers_id) {
     for (let i = 0; i < elements_to_hide.length; i++) {
         elements_to_hide[i].hidden = true;
     }
-    document.getElementById('correct_answer_text').hidden = true;
-    document.getElementById('correct_answer').innerHTML = "";
-    const types = ['mc', 'pne']; // Added type Positioning for Elements Positioning and 'name'
-    let question_type = types[Math.floor(Math.random() * types.length)];
     let question = document.getElementById(question_id[0]);
+    let is_shown = document.getElementById('correct_answer_text').hidden;
+    if (!(is_memory_mode_enabled() && !is_shown && document.getElementById('correct_answer_text').value)) {
+        document.getElementById('correct_answer_text').hidden = true;
+    }
+    document.getElementById('correct_answer').innerHTML = "";
+    if (is_memory_mode_enabled() && !is_shown && document.getElementById('correct_answer_text').value) {
+        document.getElementById('correct_answer_text').value = false;
+        document.getElementById('correct_answer_text').hidden = true;
+        if (question.value === 'mc') {
+            const elements_to_show_ = document.getElementsByClassName('mc_element_button');
+            for (let i = 0; i < elements_to_show_.length; i++) {
+                elements_to_show_[i].disabled = false;
+                elements_to_show_[i].hidden = false;
+            }
+            const elements_to_hide = document.getElementsByClassName('element_input');
+            for (let i = 0; i < elements_to_hide.length; i++) {
+                elements_to_hide[i].hidden = true;
+            }
+        } else if (question.value === 'pne') {
+            const elements_to_hide = document.getElementsByClassName('mc_element_button');
+            for (let i = 0; i < elements_to_hide.length; i++) {
+                elements_to_hide[i].hidden = true;
+            }
+            const elements_to_show = document.getElementsByClassName('element_input');
+            for (let i = 0; i < elements_to_show.length; i++) {
+                elements_to_show[i].disabled = false;
+                elements_to_show[i].hidden = false;
+            }
+        }
+        return;
+    }
+    const types = ['mc', 'pne']; // Added type Positioning for Elements Positioning and 'name' with Cations and Anions and Greek prefixs
+    let question_type = types[Math.floor(Math.random() * types.length)];
     question.value = question_type;
     const elements_prefix = ['H', 'He', 'Li', 'Be', 'B', 'C', 'N', 'O', 'F', 'Ne', 'Na', 'Mg', 'Al', 'Si', 'P', 'S', 'Cl', 'Ar(Argon)', 'K', 'Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge', 'As', 'Se', 'Br', 'Kr', 'Rb', 'Sr', 'Y', 'Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd', 'Ag', 'Cd', 'In', 'Sn', 'Sb', 'Te', 'I', 'Xe', 'Cs', 'Ba'];
     const elements = ['Hydrogen', 'Helium', 'Lithium', 'Beryllium', 'Boron', 'Carbon', 'Nitrogen', 'Oxygen', 'Fluorine', 'Neon', 'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus', 'Sulfur', 'Chlorine', 'Argon', 'Potassium', 'Calcium', 'Scandium', 'Titanium', 'Vanadium', 'Chromium', 'Manganese', 'Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc', 'Gallium', 'Germanium', 'Arsenic', 'Selenium', 'Bromine', 'Krypton', 'Rubidium', 'Strontium', 'Yttrium', 'Zirconium', 'Niobium', 'Molybdenum', 'Technetium', 'Ruthenium', 'Rhodium', 'Palladium', 'Silver', 'Cadmium', 'Indium', 'Tin', 'Antimony', 'Tellurium', 'Iodine', 'Xenon', 'Cesium', 'Barium'];
@@ -242,6 +293,7 @@ function create_element_question(question_id, answers_id) {
             if (correct_answer === j) {
                 cur_answer.innerHTML = correct_answer_text;
                 cur_answer.value = 'correct';
+                correct_element = document.getElementById(answers_id[j]);
             } else {
                 let index = Math.floor(Math.random() * current_array.length);
                 let new_answer_text = current_array[index];
@@ -259,6 +311,11 @@ function create_element_question(question_id, answers_id) {
                 cur_answer.value = 'incorrect';
                 remove(current_array, [current_array[index]])
             }
+        }
+        const answer_state = document.getElementById('answer_state');
+        if (is_memory_mode_enabled() && answer_state.hidden) {
+            document.getElementById('correct_answer_text').value = true;
+            is_answer(correct_element, 'mc_element_button')
         }
     } else if (question_type === 'pne') {
         const elements_to_hide = document.getElementsByClassName('mc_element_button');
@@ -289,6 +346,11 @@ function create_element_question(question_id, answers_id) {
         proton_input.value = answer[0];
         neutron_input.value = answer[1];
         electron_input.value = answer[2];
+        const answer_state = document.getElementById('answer_state');
+        if (is_memory_mode_enabled() && answer_state.hidden) {
+            document.getElementById('correct_answer_text').value = true;
+            is_submit_answer(document.getElementById('submit_button'), 'element_input')
+        }
     } //else if (question_type === 'name') {
     //
     //}
